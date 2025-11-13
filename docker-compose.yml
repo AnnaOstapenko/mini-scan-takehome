@@ -40,3 +40,17 @@ services:
     build:
       context: .
       dockerfile: ./cmd/scanner/Dockerfile
+
+  subscriber:
+    depends_on:
+      mk-subscription:
+        condition: service_completed_successfully
+    environment:
+      PUBSUB_EMULATOR_HOST: pubsub:8085
+      PUBSUB_PROJECT_ID: test-project
+    build:
+      context: .
+      dockerfile: ./cmd/subscriber/Dockerfile
+    volumes:
+      - ./data:/data
+
